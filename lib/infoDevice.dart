@@ -38,10 +38,12 @@ class _DeviceDetailDemoState extends State<DeviceDetailDemo> {
         });//UUID for iOS
       }else if(kIsWeb){
         WebBrowserInfo webInfo=await deviceInfoPlugin.webBrowserInfo;
+        deviceName=webInfo.browserName.toString();
         identifier=webInfo.vendor.toString()+webInfo.userAgent.toString()+webInfo.hardwareConcurrency.toString();
       }
       else if (Platform.isLinux) {
         LinuxDeviceInfo linuxInfo = await deviceInfoPlugin.linuxInfo;
+        deviceName=linuxInfo.name;
         identifier = linuxInfo.machineId;
       }
     } on PlatformException {
