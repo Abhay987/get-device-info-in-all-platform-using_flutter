@@ -1,6 +1,7 @@
 
 import 'dart:io';
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -35,6 +36,13 @@ class _DeviceDetailDemoState extends State<DeviceDetailDemo> {
           //deviceVersion = data.systemVersion;
           identifier = data.identifierForVendor;
         });//UUID for iOS
+      }else if(kIsWeb){
+        WebBrowserInfo webInfo=await deviceInfoPlugin.webBrowserInfo;
+        identifier=webInfo.vendor.toString()+webInfo.userAgent.toString()+webInfo.hardwareConcurrency.toString();
+      }
+      else if (Platform.isLinux) {
+        LinuxDeviceInfo linuxInfo = await deviceInfoPlugin.linuxInfo;
+        identifier = linuxInfo.machineId;
       }
     } on PlatformException {
       debugPrint('Failed to get platform version');
